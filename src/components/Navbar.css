@@ -1,0 +1,22 @@
+.navbar{
+    height: 60px;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 0px 15px 15px 15px;
+}
+.nav-left{
+    flex:1;
+    text-align:left;
+    cursor:pointer;
+}
+.nav-right{
+    flex:1;
+    text-align:end;
+    cursor:pointer;
+}
+.nav-left li,.nav-right li{
+    display:inline-block;
+    margin:10px 20px;
+}

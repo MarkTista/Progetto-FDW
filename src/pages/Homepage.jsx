@@ -1,11 +1,10 @@
+import './Homepage.css'
+import Navbar from '../components/Navbar'
 function Homepage()
 {
     return(
         <>
-        <p> ciao</p>
-        <p> ciao</p>
-        <p> ciao</p>
-        <p> ciao</p>
+       <Navbar></Navbar>
         </>
     );
 }
