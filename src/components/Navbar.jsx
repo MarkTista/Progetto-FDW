@@ -1,20 +1,21 @@
 import './Navbar.css'
 import logo from '../assets/logo.png'
+import {NavLink} from 'react-router-dom'
 
 function Navbar()
 {
     return (
-        <div className="navbar">
+        <nav className="navbar-mia">
             <img src={logo} alt="LOGO" className="logo"/>
-            <ul class="nav-left">
-                <li>Home</li>
-                <li>Chi siamo</li>
+            <ul className="nav-left">
+                <li><NavLink to={`/`}> Home </NavLink> </li>
+               <li><NavLink to={`/chisiamo`}> Chi siamo </NavLink></li>
             </ul>
-            <ul class="nav-right">
-                <li>Login</li>
-                <li>Registrazione</li>
+            <ul className="nav-right">
+                 <li><NavLink to={`/login`}> Login </NavLink></li>
+               <li><NavLink to={`/singup`}> Registrazione </NavLink></li>
             </ul>
-        </div>
+        </nav>
     );
 
 }
