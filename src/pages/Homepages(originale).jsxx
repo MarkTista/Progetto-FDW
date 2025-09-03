@@ -1,0 +1,60 @@
+import Navbar from '../components/Navbar';
+import { users, corsi } from '../User';
+import Table from 'react-bootstrap/Table';
+import Container from 'react-bootstrap/Container';
+
+function Homepages() {
+
+    //PARTE NUOVA 
+    const studenteLoggatoId = 3;
+    const studente = users.find(user => user.id === studenteLoggatoId && user.role === 'studente');
+
+    // Stato per tenere traccia dei corsi a cui lo studente si iscrive
+    const [corsiIscritti, setCorsiIscritti] = useState([]);
+
+    // Gestione iscrizione al corso
+    const handleIscriviti = (corso) => {
+        if (!corsiIscritti.find(c => c.id === corso.id)) {
+        setCorsiIscritti([...corsiIscritti, corso]);
+        }
+    };
+
+
+
+
+
+
+
+
+  return (
+    <>
+      <Navbar />
+      <div className="container-student">
+        <Container>
+          <h1 className='text-center mt-4'>Tutti i corsi disponibili</h1>
+          
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Docente</th>
+                <th>Corso</th>
+              </tr>
+            </thead>
+            <tbody>
+              { corsi.map((corso) => {
+	                        const docente = users.find(user => user.id === corso.id_docente && user.role === "docente");
+	                        return (
+	                        <tr key={corso.id}>
+	                            <td>{docente ? docente.nome : "Sconosciuto"}</td>
+	                            <td>{corso.titolo}</td>
+	                        </tr>);
+                })}
+            </tbody>
+          </Table>
+        </Container>
+      </div>
+    </>
+  );
+}
+
+export default Homepages;

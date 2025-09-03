@@ -2,17 +2,24 @@ import {useState} from 'react'
 import Navbar from '../components/Navbar'
 import './Login.css'
 import Button from 'react-bootstrap/Button'
+import { users } from "../User";
+import { useNavigate } from "react-router-dom";
 
 function Login()
 {
+    const navigate = useNavigate();
+
     const [formData,setFormData]=useState({
     email:"",
-    password:""
+    password:"",
     });
+
 
     function handleSubmit(e)
     {
         e.preventDefault();
+        //fare controllo se DOCENTE VAI SU PAGINE DI DOCENTE, se è STUDENTE vai su pagina di STUDENTE
+        navigate("/Homepaged");
     }
     function handleInputChange(e)
     {
