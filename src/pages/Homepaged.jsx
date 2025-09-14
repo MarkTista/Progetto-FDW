@@ -6,32 +6,26 @@ import AddCard from '../components/AddCard';
 import '../components/Cards.css'
 function Homepaged ()
 {
-   // ⚠️ Simula il login: supponiamo che il docente loggato sia quello con id 1
   const docenteLoggatoId = 1;
   const docente = users.find(user => user.id === docenteLoggatoId && user.role === "docente");
 
-  // ⚡ Stato iniziale con tutti i corsi disponibili
   const [listaCorsi, setListaCorsi] = useState(corsi);
 
-  // 🔁 Stato per visualizzare il form
   const [showForm, setShowForm] = useState(false);
 
-  // ✅ Filtra solo i corsi creati dal docente loggato
   const corsoTrovato = listaCorsi.filter(corso => corso.id_docente === docente.id);
 
-  // ✅ Quando il docente aggiunge un corso
   const handleAddCourse = (nuovoCorso) => {
     const nuovoCorsoCompleto = {
-      id: Date.now(),              // ID finto univoco
-      id_docente: docente.id,      // Collegamento automatico al docente
-      lezioni: [],                 // inizialmente vuoto
+      id: Date.now(),              
+      id_docente: docente.id,      
+      lezioni: [],                 
       ...nuovoCorso
     };
 
     setListaCorsi([...listaCorsi, nuovoCorsoCompleto]);
     setShowForm(false);
   }
-    //corsoTrovato è un array che contiene tutti i corsi con docente 1
     return(
         <>
         <Navbar></Navbar>
@@ -47,7 +41,6 @@ function Homepaged ()
                 isAddCard={false}
                 role={docente.role}
                 >
-                
             </Cards>
         ))} 
         <Cards

@@ -1,5 +1,5 @@
 import {useState} from 'react'
-import Navbar from '../components/Navbar'
+import NavBar from '../components/Navbar'
 import './Login.css'
 import Button from 'react-bootstrap/Button'
 import { users } from "../User";
@@ -13,7 +13,6 @@ function Login()
     email:"",
     password:"",
     });
-
 
     function handleSubmit(e)
     {
@@ -33,10 +32,10 @@ function Login()
 
     return(
         <>
-        <Navbar></Navbar>
-        <div className="wrapper">
+        <NavBar></NavBar>
+        <div className="container-login-singup">
             <div className="form-box">
-            <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                 <h1>Login</h1>
             <div className="input-box">
                     <input name="email"value={formData.email} type="email" placeholder="Email" onChange={handleInputChange}required/>
@@ -45,7 +44,7 @@ function Login()
                     <input name="password" value={formData.password}type="password" placeholder="Password"onChange={handleInputChange}required />
                 </div>
             <Button variant="outline-primary" type="submit">Accedi</Button>
-         </form>
+                 </form>
             </div>
         </div>
         </>

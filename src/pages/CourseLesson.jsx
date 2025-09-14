@@ -11,9 +11,8 @@ function CourseLesson()
     //ad aogni aggiornamento 
     useEffect(() => {
     if (corso.lezioni) {
-      setLezioni(corso.lezioni); 
-                         }
-    }, [corso.lezioni]);
+      setLezioni(corso.lezioni);}
+    },[corso.lezioni]);
 
     //-------PARTE RELATIVA AL FORM
     const [showForm,setShowForm] = useState(false); // serve per visualizzare o meno il pulsante
@@ -23,9 +22,8 @@ function CourseLesson()
         setLezioni([...lezioni, { id: Date.now(), ...nuovaLezione }]);
         setShowForm(false);
     };
-
+    //allora viene messo lo spreadoperator ...nuovaLezione perchè voglio il contenuto, senza mi andrebbe ad aggiungere l'oggetto nuovalezione
     return(
-        
         <div className="container-table">
             <h1>Corso di {corso.titolo}</h1>
                 <table>

@@ -15,21 +15,17 @@ function ListaCorsiDisponibili({ corsi, onIscriviti }) {
       <tbody>
         {corsi.map((corso) => {
           const docente = users.find(user => user.id === corso.id_docente && user.role === 'docente');
-
+            {/*Qua cerca tutte le corrispondenze tra il docente */}
           return (
-            <tr key={corso.id}>
-              <td>{docente ? docente.nome : 'Sconosciuto'}</td>
+             <tr key={corso.id}>
+              <td>{docente.nome}</td>
               <td>{corso.titolo}</td>
               <td>
                 <button
                   className="btn btn-success"
                   onClick={() =>
-                    onIscriviti({
-                      ...corso,
-                      descrizione: `${corso.descrizione}\nProf: ${docente?.nome || 'Sconosciuto'}`,
-                    })
-                  }
-                >
+                    onIscriviti({...corso, descrizione: corso.descrizione + '\nProf: ' + docente.nome,})
+                  }>
                   Iscriviti
                 </button>
               </td>

@@ -4,6 +4,7 @@ import { users, corsi } from '../User';
 import Container from 'react-bootstrap/Container';
 import Cards from '../components/Cards';
 import ListaCorsiDisponibili from '../components/ListaCorsiDisponibili';
+import './Homepages.css'
 
 
 function Homepages() {
@@ -13,9 +14,12 @@ function Homepages() {
   const [corsiIscritti, setCorsiIscritti] = useState([]);
 
   const handleIscriviti = (corso) => {
+   
     if (!corsiIscritti.find(c => c.id === corso.id)) {
       setCorsiIscritti([...corsiIscritti, corso]);
     }
+    {/*Corso è un oggetto che viene passato da ListaCorsiDisponibile, dove viene controllato se il corso non sta gia presente in corsiIscritti allora lo aggiunge  */}
+    {/* Nel caso in cui non ci fosse stato aggiungerebbe lo stesso corso più volte del necessario */}
   };
 
   return (
@@ -23,15 +27,12 @@ function Homepages() {
       <Navbar />
       <div className="container-student">
         <Container>
-          <h1 className="text-center mt-4">Tutti i corsi disponibili</h1>
-
-          {/* ✅ Componente separato */}
-          <ListaCorsiDisponibili corsi={corsi} onIscriviti={handleIscriviti} />
-
+          <h1 className="h1-student">Tutti i corsi disponibili</h1>
+          <ListaCorsiDisponibili corsi={corsi} onIscriviti={handleIscriviti}/>
           {corsiIscritti.length > 0 && (
             <>
-              <h3 className="mt-5">Corsi a cui sei iscritto:</h3>
-              <div className="container-card d-flex flex-wrap">
+              <h3>Corsi a cui sei iscritto:</h3>
+              <div className="container-card-student">
                 {corsiIscritti.map(corso => (
                   <Cards
                     key={corso.id}
@@ -44,7 +45,7 @@ function Homepages() {
                   />
                 ))}
               </div>
-            </>
+              </>
           )}
         </Container>
       </div>

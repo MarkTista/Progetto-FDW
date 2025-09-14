@@ -8,8 +8,12 @@ import Singup from './pages/Singup.jsx'
 import Homepaged from './pages/Homepaged.jsx'
 import CourseLesson from './pages/CourseLesson.jsx'
 import Homepages from './pages/Homepages.jsx'
-import './index.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css'
+import StudentLesson from './pages/StudentLesson.jsx';
+
+{/*CSS di Bootstrap vale su tutte le app però mettendo prima di index.css lo posso sovrascrivere*/}
+
 
 const router = createBrowserRouter([
 {
@@ -35,6 +39,10 @@ const router = createBrowserRouter([
 {
   path: "/Homepages",
   element: <Homepages />
+},
+{
+  path:"/studente/lezione/:corsoId",
+  element:<StudentLesson/>
 }
 ])
 

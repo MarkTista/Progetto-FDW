@@ -29,40 +29,5 @@
   outline: none;
 }
 
-.inline-form .buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
 
-.inline-form button {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  font-size: 0.9rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.2s;
-}
 
-.inline-form button[type="submit"],
-.inline-form button:first-of-type {
-  background: #007bff;
-  color: white;
-}
-
-.inline-form button[type="submit"]:hover,
-.inline-form button:first-of-type:hover {
-  background: #0056b3;
-}
-
-.inline-form button[type="button"],
-.inline-form button:last-of-type {
-  background: #ddd;
-  color: #333;
-}
-
-.inline-form button[type="button"]:hover,
-.inline-form button:last-of-type:hover {
-  background: #bbb;
-}

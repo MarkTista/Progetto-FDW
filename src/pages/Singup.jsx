@@ -29,7 +29,7 @@ function Singup()
     return(
         <>
         <Navbar></Navbar>
-        <div className="wrapper">
+        <div className="container-login-singup">
             <div className="form-box">
             <form onSubmit={handleSubmit}>
                 <h1>Registrazione</h1>

@@ -21,7 +21,7 @@ export const users = [
     email: "studente@gmail.com",
     password: "ciao12",
     role: "studente",
-    corsiIscritti: []
+    corsiIscritti: [3]
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ export const users = [
     email: "studente@gmail.com",
     password: "ciao12",
     role: "studente",
-    corsiIscritti: []
+    corsiIscritti: [5]
   }
 ];
 
@@ -63,23 +63,9 @@ export const corsi =[
    },
    {
     id:5,
-    titolo:"geografia",
+    titolo:"Geografia",
     descrizione:"Corso introduttivo di matemamatica",
-    id_docente:1,
+    id_docente:2,
     img:"https://www.libraccio.it/images/9788855052689_0_500_0_75.jpg"
-   }, 
-   {
-    id:5,
-    titolo:"geografia",
-    descrizione:"Corso introduttivo di matemamatica",
-    id_docente:1,
-    img:"https://www.libraccio.it/images/9788855052689_0_500_0_75.jpg"
-   }, 
-   {
-    id:5,
-    titolo:"geografia",
-    descrizione:"Corso introduttivo di matemamatica",
-    id_docente:1,
-    img:"https://www.libraccio.it/images/9788855052689_0_500_0_75.jpg"
-   },  
+   },
 ]

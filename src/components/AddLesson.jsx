@@ -5,10 +5,13 @@ function AddLesson({onSave})
     titolo: "",
     video:""
   });
+
   function handleSave(e){
     e.preventDefault();
-    onSave(nuovaLezione); // passa i dati al genitore
+    onSave(nuovaLezione);
   };
+  
+
   function handleChange(e)
   {
     const{name,value} = e.target;
@@ -19,7 +22,7 @@ return(
         <form onSubmit={handleSave}>
             <input name="titolo" type="text" placeholder="Nome Lezione"value={nuovaLezione.titolo}onChange={handleChange} required
             />
-            <input name="video" type="url"  placeholder="Descrizione Corso" value={nuovaLezione.video}onChange={handleChange} required
+            <input name="video"  type="url"  placeholder="Descrizione Corso" value={nuovaLezione.video}onChange={handleChange} required
             />
             <button>Crea Lezione</button>
         </form>
