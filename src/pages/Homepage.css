@@ -1,4 +1,5 @@
 .row {
+  width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -7,9 +8,9 @@
 }
 
 .row > div {
-  flex: 1;           
-  max-width: 500px;   
-  background: rgba(255,255,255,0.8); 
+  flex: 1;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.8);
   padding: 1.5rem;
   border-radius: 10px;
 }
@@ -26,9 +27,7 @@
   text-align: center;
 }
 
-.container-homepage h3{
+.container-homepage h3 {
   font-size: 1.5rem;
-  color:blue; 
+  color: blue;
 }
-
-
