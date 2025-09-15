@@ -6,6 +6,7 @@ import AddCard from "../components/AddCard";
 import "../components/Cards.css";
 import { useEffect } from "react";
 function Homepaged() {
+  
   const docente = cookieStore.get("user");
   const corsoTrovato = [];
 
@@ -26,7 +27,7 @@ function Homepaged() {
 
     function handleSubmit(e) {
       e.preventDefault();
-      fetch(API_URL + "/addcourse", {
+      fetch(API_URL + {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,9 +70,7 @@ function Homepaged() {
         <Cards
           key={0}
           title={"AGGIUNGI CORSO"}
-          img={
-            "https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="
-          }
+          img={"https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="}
           text={"Aggiungere Corso"}
           isAddCard={true}
           onClick={() => setShowForm(!showForm)}

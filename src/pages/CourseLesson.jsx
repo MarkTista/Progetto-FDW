@@ -2,6 +2,8 @@ import { useState,useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { corsi } from "../User";
 import AddLesson from '../components/AddLesson';
+import './CurseLesson.css'
+import NavBar from "../components/Navbar"
 function CourseLesson()
 {
     const { corsoId } = useParams(); // prendi l'id dal path
@@ -24,8 +26,10 @@ function CourseLesson()
     };
     //allora viene messo lo spreadoperator ...nuovaLezione perchè voglio il contenuto, senza mi andrebbe ad aggiungere l'oggetto nuovalezione
     return(
+        <>
+        <NavBar/>
         <div className="container-table">
-            <h1>Corso di {corso.titolo}</h1>
+         <h1>Corso di {corso.titolo}</h1>
                 <table>
                     <thead>
                         <tr>
@@ -48,8 +52,11 @@ function CourseLesson()
                     }
                     </tbody>
                 </table>
-                <button onClick={()=> setShowForm(!showForm)}>AGGIUNGI LEZIONE</button>
+                    <div className="button-container">
+                    <button onClick={() => setShowForm(!showForm)}>AGGIUNGI LEZIONE</button>
+                    </div>
                 {showForm && <AddLesson onSave={handleAddLesson} />}
         </div>
+        </>
     );
 }export default CourseLesson

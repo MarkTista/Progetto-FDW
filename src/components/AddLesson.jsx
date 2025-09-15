@@ -20,9 +20,9 @@ function AddLesson({onSave})
 return( 
     <div className="inline-form">
         <form onSubmit={handleSave}>
-            <input name="titolo" type="text" placeholder="Nome Lezione"value={nuovaLezione.titolo}onChange={handleChange} required
+            <input name="titolo" type="text" placeholder="Titolo Lezione"value={nuovaLezione.titolo}onChange={handleChange} required
             />
-            <input name="video"  type="url"  placeholder="Descrizione Corso" value={nuovaLezione.video}onChange={handleChange} required
+            <input name="video"  type="url"  placeholder="Link Lezione" value={nuovaLezione.video}onChange={handleChange} required
             />
             <button>Crea Lezione</button>
         </form>
