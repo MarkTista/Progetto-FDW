@@ -1,108 +1,55 @@
 import { useState } from "react";
-import { users, corsi } from "../User";
 import Navbar from "../components/Navbar";
 import Cards from "../components/Cards";
 import CardEditor from "../components/CardEditor";
 import "../components/Cards.css";
 import { useEffect } from "react";
 function Homepaged() {
-  const docenteLoggatoId = 1;
-  const docente = users.find(
-    (user) => user.id === docenteLoggatoId && user.role === "docente"
-  );
-
-  const [listaCorsi, setListaCorsi] = useState(corsi); //lista corsi
-
+ 
+  const [listaCorsi, setListaCorsi] = useState([]); //lista corsi dal DB
   const [showForm, setShowForm] = useState(false); //serve che quando clicchi il tasto viene visuallizato form
-
   const [editingCourse, setEditingCourse] = useState(null); // serve per modificare corso
 
-  const corsoTrovato = listaCorsi.filter(
-    (corso) => corso.id_docente === docente.id
-  );
-
-  //funzione passata come riferimetno per eliminare un determinato corso
-  const handleDeleteCourse = (id) => {
-    setListaCorsi(listaCorsi.filter((c) => c.id !== id));
-  };
-
-  //funzione passata come riferimento per modificare determinato corso
-  const handleUpdateCourse = (corsoAggiornato) => {
-    setListaCorsi(
-      listaCorsi.map((c) => (c.id === corsoAggiornato.id ? corsoAggiornato : c))
-    );
-    setEditingCourse(null);
-    setShowForm(false);
-  };
-
-  const handleAddCourse = (nuovoCorso) => {
-    const nuovoCorsoCompleto = {
-      id_docente: docente.id,
-      lezioni: [],
+function handleAddCourse(nuovoCorso) {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  fetch("http://localhost:8000/api/corsi/a", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    },
+   body: JSON.stringify({
       ...nuovoCorso,
-    };
-    setListaCorsi([...listaCorsi, nuovoCorsoCompleto]);
-    setShowForm(false);
-  };
+      docente: user._id   
+    }),
+  })
+}
 
+
+    
   return (
     <>
-      <Navbar></Navbar>
-      {/*METODO PER AGGIUNGERE IN MANIERA AUTOMATICO*/}
+    <Navbar></Navbar>
       <div className="container-card">
-        {corsoTrovato.map((par) => (
-          <Cards
-            key={par.id}
-            id={par.id}
-            title={par.titolo}
-            text={par.descrizione}
-            img={par.img}
-            isAddCard={false}
-            onEdit={() => {
-              setShowForm(!showForm);
-              setEditingCourse(par);
-            }}
-            onDelete={() => {
-              handleDeleteCourse(par.id);
-            }}
-            role={docente.role ?? "docente"}
-          ></Cards>
-        ))}
-        <Cards
-          key={0}
-          title={"AGGIUNGI CORSO"}
-          img={
-            "https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="
-          }
-          text={"Aggiungere Corso"}
-          isAddCard={true}
-          onClick={() => {
-            setShowForm(!showForm);
-            setEditingCourse(null);
-          }}
-          role={docente.role ?? "docente"}
-        >
-          {/*sto passando al props il setter con setShowForm vero o falso*/}
-        </Cards>
-
-        {showForm && (
-          <CardEditor
-            initialValues={editingCourse}
-            onUpdate={handleUpdateCourse}
-            onSave={handleAddCourse}
-            onClose={() => setShowForm(false)}
-          />
-        )}
-        {/* RENDER CONDIZIONALE se showForm è vero allora React renderizza il componente AddCard e vengono passate due props
-        onSave funzione che aggiunge il nuovo corso allo stato listaCorsi
-        onClose funzione che chiude il form senza salvare
-        */}
-        {/*
-        Allora viene passato una funziona anonima come proprs"onClick" che quando viene cliccato viene settato true però da Cards
-        setShowForm viene messo true e viene renderizzato il componente e viene passato come riferimento utilizzando onSave la funzione handleAddCurse
-        dove una volta aggiunto il corso in AddCard.jsx verrà richiamtra questa funziona 
-        */}
-      </div>
+      {/* Card fissa per aggiungere nuovo corso */}
+      <Cards
+        key={0}
+        title="AGGIUNGI CORSO"
+        img="https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="
+        text="Aggiungere Corso"
+        isAddCard={true}
+        onClick={() => {
+          setShowForm(true);
+         // setEditingCourse(null);
+        }}
+        role="docente"
+      />
+      {/* Form per aggiungere/modificare corso */}
+      {showForm &&(<CardEditor // initialValues={editingCourse} // onUpdate={handleUpdateCourse} 
+      onSave={handleAddCourse}onClose={() => setShowForm(false)}
+        />
+      )}
+    </div>
     </>
   );
 }

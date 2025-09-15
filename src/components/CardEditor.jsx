@@ -41,14 +41,19 @@ function CardEditor({ onSave, onClose,onUpdate,initialValues }) {
   return (
     
     <div className="inline-form">
-        <form onSubmit={handleSave}>
+        <form method="post"
+            action={"#"}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSave(e);
+            }}>
             <input name="titolo" placeholder="Nome Corso"value={nuovoCorso.titolo} onChange={handleChange} required
             />
             <input name="descrizione" placeholder="Descrizione Corso" value={nuovoCorso.descrizione} onChange={handleChange} required
             />
             <input name="img" placeholder="URL immagine"value={nuovoCorso.img}onChange={handleChange} 
             />
-            <button>Salva Corso</button>
+            <button type="submit">Salva Corso</button>
             <button onClick={onClose}>Annulla</button>
         </form>
     </div>

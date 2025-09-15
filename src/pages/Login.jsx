@@ -14,7 +14,7 @@ function Login() {
   });
 
   function handleSubmit(e) {
-    fetch(import.meta.env.VITE_API_URL + "auth/login", {
+    fetch(import.meta.env.VITE_API_URL + "/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,6 +31,18 @@ function Login() {
         // salvo nel session storage l'utente e il token
         sessionStorage.setItem("user", JSON.stringify(data.user));
         sessionStorage.setItem("token", data.token);
+//1)
+//data.user ->oggetto utente che ritorna dal backend
+//JSON.stringify(data.user) -> lo converte in stringa perché sessionStorage può salvare solo stringhe
+//nel browser avremo key: "user"
+//                         value: "{"id":1,"email":"mario@esempio.com","name":"Mario"}"
+
+//PER RIUSARLO FAI const user = JSON.parse(sessionStorage.getItem("user"));
+
+//2)data.token-> è il token generatore da JWT
+//Questo serve quando devi chiamare API protette
+//  headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}`,},
+
         // Navigate based on user role
         if (data.user.role === "docente") {
           navigate("/Homepaged");

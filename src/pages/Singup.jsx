@@ -15,8 +15,9 @@ function Singup() {
   });
 
   function handleSubmit(e) {
-    console.log("Form Data Submitted:", formData); // Debug: verifica i dati del form
-    fetch(import.meta.env.VITE_API_URL + "auth/register", {
+    //console.log("Form Data Submitted:", formData); // Debug: verifica i dati del form
+    console.log(import.meta.env.VITE_API_URL);
+    fetch(import.meta.env.VITE_API_URL + "/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,6 +36,7 @@ function Singup() {
       .catch((error) => {
         alert("Errore durante la registrazione, riprova più tardi");
       });
+      
   }
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
