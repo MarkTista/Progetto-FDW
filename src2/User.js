@@ -50,7 +50,7 @@ export const corsi =[
         {
             id:2,
             titolo:"funzioni",
-            video:"https://www.youtube.com/watch?v=8qOxQ8ePuCM",
+            video:"https://www.youtube.com/watch?v=nGCbgnNJ4CY",
         }
     ]
    },

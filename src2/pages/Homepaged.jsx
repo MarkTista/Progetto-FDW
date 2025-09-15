@@ -2,35 +2,21 @@ import { useState } from "react";
 import { users, corsi } from "../User";
 import Navbar from "../components/Navbar";
 import Cards from "../components/Cards";
-import CardEditor from "../components/CardEditor";
+import AddCard from "../components/AddCard";
 import "../components/Cards.css";
 import { useEffect } from "react";
 function Homepaged() {
   
-  const docenteLoggatoId = 1;
-  const docente = users.find(user => user.id === docenteLoggatoId && user.role === "docente");
+  const docente = cookieStore.get("user");
+  const corsoTrovato = [];
 
-  const [listaCorsi, setListaCorsi] = useState(corsi); //lista corsi
+  const [listaCorsi, setListaCorsi] = useState(corsi);
 
-  const [showForm, setShowForm] = useState(false); //serve che quando clicchi il tasto viene visuallizato form
+  const [showForm, setShowForm] = useState(false);
 
-  const [editingCourse, setEditingCourse] = useState(null); // serve per modificare corso
-
-  const corsoTrovato = listaCorsi.filter(corso => corso.id_docente === docente.id);
-  
-  //funzione passata come riferimetno per eliminare un determinato corso
-  const handleDeleteCourse = (id)=>{
-   setListaCorsi(listaCorsi.filter((c) => c.id !== id));
-  }
-
-  //funzione passata come riferimento per modificare determinato corso
-  const handleUpdateCourse = (corsoAggiornato) => {
-      setListaCorsi(
-        listaCorsi.map((c) => (c.id === corsoAggiornato.id ? corsoAggiornato : c))
-      );
-      setEditingCourse(null);
-      setShowForm(false);
-    };
+  useEffect(() => {
+    // chiamata per tutti i corsi che dipende anche dal id docente
+  }, [listaCorsi]);
 
   const handleAddCourse = (nuovoCorso) => {
     const nuovoCorsoCompleto = {
@@ -38,13 +24,33 @@ function Homepaged() {
       lezioni: [],
       ...nuovoCorso,
     };
-    setListaCorsi([...listaCorsi,nuovoCorsoCompleto])
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      fetch(API_URL + {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(nuovoCorsoCompleto),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            alert("Login errato, assirurati di aver inserito i dati corretti");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Navigate based on user role
+        })
+        .catch((error) => {
+          console.error("Error during login:", error);
+        });
+    }
+
+    //setListaCorsi([...listaCorsi, nuovoCorsoCompleto]);
     setShowForm(false);
   };
-
-
-
-
   return (
     <>
       <Navbar></Navbar>
@@ -58,9 +64,7 @@ function Homepaged() {
             text={par.descrizione}
             img={par.img}
             isAddCard={false}
-            onEdit={() => {setShowForm(!showForm); setEditingCourse(par)}}
-            onDelete={()=>{handleDeleteCourse(par.id);}}
-            role={docente.role ?? "docente"}
+            role={docente.role}
           ></Cards>
         ))}
         <Cards
@@ -69,16 +73,14 @@ function Homepaged() {
           img={"https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="}
           text={"Aggiungere Corso"}
           isAddCard={true}
-          onClick={() => {setShowForm(!showForm);setEditingCourse(null);}}
+          onClick={() => setShowForm(!showForm)}
           role={docente.role ?? "docente"}
         >
           {/*sto passando al props il setter con setShowForm vero o falso*/}
         </Cards>
 
         {showForm && (
-          <CardEditor
-            initialValues={editingCourse}
-            onUpdate={handleUpdateCourse}
+          <AddCard
             onSave={handleAddCourse}
             onClose={() => setShowForm(false)}
           />

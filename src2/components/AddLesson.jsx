@@ -1,29 +1,14 @@
-import { useState,useEffect } from "react";
-function AddLesson({onSave,lezione,onUpdate})
+import { useState } from "react";
+function AddLesson({onSave})
 {
     const [nuovaLezione, setNuovalezione] = useState({
     titolo: "",
     video:""
   });
 
-  useEffect(() => {
-  if (lezione) {
-    setNuovalezione(lezione);
-  } else {
-    setNuovalezione({ titolo: "", video: "" });
-  }
-}, [lezione]);
-
   function handleSave(e){
     e.preventDefault();
-    
-    if(lezione)
-    {
-      onUpdate(nuovaLezione)
-    }else{
-      onSave(nuovaLezione);
-    }
-    
+    onSave(nuovaLezione);
   };
   
 

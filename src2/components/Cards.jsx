@@ -2,7 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import {Link} from'react-router-dom'
 
-function Cards({ title, text, img, id, role, isAddCard, onClick,onEdit,onDelete }) {
+function Cards({ title, text, img, id, role, isAddCard, onClick }) {
     const isDocente = role === "docente";
     const isStudente = role === "studente";
   return (
@@ -12,23 +12,7 @@ function Cards({ title, text, img, id, role, isAddCard, onClick,onEdit,onDelete 
         <Card.Title>{title}</Card.Title>
         <Card.Text>{text}</Card.Text>
           {isDocente && isAddCard &&(<Button variant="secondary" onClick={onClick}>Aggiungi Corso</Button>)} 
-          {isDocente && !isAddCard && (
-          <>
-            <Link to={`/Homepaged/corso/${id}/lezione`}>
-              <Button variant="primary" className="mb-2">
-                Aggiungi Lezione
-              </Button>
-            </Link>
-            <div>
-              <Button variant="warning" className="me-2" onClick={onEdit}>
-                Modifica
-              </Button>
-              <Button variant="danger" onClick={onDelete}>
-                Elimina
-              </Button>
-            </div>
-          </>
-        )}
+          {isDocente && !isAddCard && (<Link to={`/Homepaged/corso/${id}/lezione`}><Button variant="primary">Aggiungi Lezione</Button> </Link>)}
           {isStudente && <Link to={`/studente/lezione/${id}`}><Button variant="info">Visualizza Lezioni</Button> </Link> }
       </Card.Body>
     </Card>

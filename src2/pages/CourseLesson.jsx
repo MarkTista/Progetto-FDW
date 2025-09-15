@@ -4,15 +4,11 @@ import { corsi } from "../User";
 import AddLesson from '../components/AddLesson';
 import './CurseLesson.css'
 import NavBar from "../components/Navbar"
-import Button from 'react-bootstrap/Button';
-
-
 function CourseLesson()
 {
     const { corsoId } = useParams(); // prendi l'id dal path
     const corso = corsi.find(c => c.id == corsoId); // salvare il corso in corso
     const [lezioni, setLezioni] = useState([]);// Stato locale delle lezioni
-    const [editingLesson,setEditingLesson] = useState();
 
     //ad aogni aggiornamento 
     useEffect(() => {
@@ -28,15 +24,6 @@ function CourseLesson()
         setLezioni([...lezioni, { id: Date.now(), ...nuovaLezione }]);
         setShowForm(false);
     };
-   const handleUpdateLesson = (lezioneAggiornata) => {
-        setLezioni(lezioni.map((l) => (l.id === lezioneAggiornata.id ? lezioneAggiornata : l))
-        );
-        setEditingLesson(null);
-        setShowForm(false);
-};
-
-
-
     //allora viene messo lo spreadoperator ...nuovaLezione perchè voglio il contenuto, senza mi andrebbe ad aggiungere l'oggetto nuovalezione
     return(
         <>
@@ -59,9 +46,6 @@ function CourseLesson()
                         <td> {l.id}</td>
                         <td> {l.titolo}</td>
                         <td> {l.video}</td>
-                        <td>
-                            <Button variant="warning" className="me-2" onClick={()=>{setShowForm(!showForm);setEditingLesson(l)}}>Modifica</Button>
-                        </td>
                         </tr>
                         )) 
                      ) : <p> NESSUNA LEZIONE TROVATA</p>
@@ -71,9 +55,7 @@ function CourseLesson()
                     <div className="button-container">
                     <button onClick={() => setShowForm(!showForm)}>AGGIUNGI LEZIONE</button>
                     </div>
-
-                {showForm && <AddLesson onSave={handleAddLesson} lezione={editingLesson} onUpdate={handleUpdateLesson} />}
-
+                {showForm && <AddLesson onSave={handleAddLesson} />}
         </div>
         </>
     );
