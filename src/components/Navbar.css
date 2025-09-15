@@ -9,7 +9,6 @@
   padding: 1rem 2rem;
   background-color: #0f172a;
 }
-
 .navbar-mia .logo {
   height: 2rem;
 }
@@ -25,4 +24,13 @@
 }
 .navbar-mia a:hover {
   background-color: #172554;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* distanza tra Benvenuto e Logout */
+}
+
+.nav-right span{
+  color:white;
 }
