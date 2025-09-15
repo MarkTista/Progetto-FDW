@@ -11,12 +11,12 @@ function Singup() {
     cognome: "",
     email: "",
     password: "",
-    organizzazione: "",
+    role: "studente", // Valore di default
   });
 
   function handleSubmit(e) {
-    e.preventDefault();
-    fetch(API_URL + "/register", {
+    console.log("Form Data Submitted:", formData); // Debug: verifica i dati del form
+    fetch(import.meta.env.VITE_API_URL + "auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,15 +25,12 @@ function Singup() {
     })
       .then((response) => {
         if (!response.ok) {
-          alert("Errore durante la registrazione, riprova più tardi");
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
         alert("Registrazione avvenuta con successo!");
-        setTimeout(() => {
-          navigate("/Login");
-        }, 2000);
       })
       .catch((error) => {
         alert("Errore durante la registrazione, riprova più tardi");
@@ -52,7 +49,14 @@ function Singup() {
       <Navbar></Navbar>
       <div className="container-login-singup">
         <div className="form-box">
-          <form onSubmit={handleSubmit}>
+          <form
+            method="post"
+            action={"#"}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(e);
+            }}
+          >
             <h1>Registrazione</h1>
             <div className="input-box">
               <input
@@ -97,17 +101,17 @@ function Singup() {
               />
             </div>
             <div className="input-box">
-              <label>Organizzazione:</label>
+              <label>Ruolo:</label>
               <select
-                name="organizzazione"
-                value={formData.organizzazione}
+                name="role"
+                value={formData.role}
                 onChange={handleInputChange}
                 required
               >
-                <option name="studente" value="Studente">
+                <option name="studente" value="studente">
                   Studente
                 </option>
-                <option name="docente" value="Docente">
+                <option name="docente" value="docente">
                   Docente
                 </option>
               </select>

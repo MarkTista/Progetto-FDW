@@ -4,7 +4,6 @@ import "./Login.css";
 import Button from "react-bootstrap/Button";
 import { users } from "../User";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../main";
 
 function Login() {
   const navigate = useNavigate();
@@ -15,8 +14,7 @@ function Login() {
   });
 
   function handleSubmit(e) {
-    e.preventDefault();
-    fetch(API_URL + "/login", {
+    fetch(import.meta.env.VITE_API_URL + "auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,20 +23,23 @@ function Login() {
     })
       .then((response) => {
         if (!response.ok) {
-          alert("Login errato, assirurati di aver inserito i dati corretti");
+          throw new Error("Network response was not ok");
         }
         return response.json();
       })
       .then((data) => {
+        // salvo nel session storage l'utente e il token
+        sessionStorage.setItem("user", JSON.stringify(data.user));
+        sessionStorage.setItem("token", data.token);
         // Navigate based on user role
-        if (data.role === "DOCENTE") {
+        if (data.user.role === "docente") {
           navigate("/Homepaged");
-        } else if (data.role === "STUDENTE") {
+        } else if (data.user.role === "studente") {
           navigate("/Homepages");
         }
       })
       .catch((error) => {
-        console.error("Error during login:", error);
+        alert("Credenziali errate, riprovare", error);
       });
   }
   function handleInputChange(e) {
@@ -55,8 +56,15 @@ function Login() {
       <NavBar></NavBar>
       <div className="container-login-singup">
         <div className="form-box">
-          <form onSubmit={handleSubmit}>
-            <h1>Login+{API_URL}</h1>
+          <form
+            method="post"
+            action={"#"}
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(e);
+            }}
+          >
+            <h1>Login</h1>
             <div className="input-box">
               <input
                 name="email"

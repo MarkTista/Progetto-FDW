@@ -6,9 +6,10 @@ import CardEditor from "../components/CardEditor";
 import "../components/Cards.css";
 import { useEffect } from "react";
 function Homepaged() {
-  
   const docenteLoggatoId = 1;
-  const docente = users.find(user => user.id === docenteLoggatoId && user.role === "docente");
+  const docente = users.find(
+    (user) => user.id === docenteLoggatoId && user.role === "docente"
+  );
 
   const [listaCorsi, setListaCorsi] = useState(corsi); //lista corsi
 
@@ -16,21 +17,23 @@ function Homepaged() {
 
   const [editingCourse, setEditingCourse] = useState(null); // serve per modificare corso
 
-  const corsoTrovato = listaCorsi.filter(corso => corso.id_docente === docente.id);
-  
+  const corsoTrovato = listaCorsi.filter(
+    (corso) => corso.id_docente === docente.id
+  );
+
   //funzione passata come riferimetno per eliminare un determinato corso
-  const handleDeleteCourse = (id)=>{
-   setListaCorsi(listaCorsi.filter((c) => c.id !== id));
-  }
+  const handleDeleteCourse = (id) => {
+    setListaCorsi(listaCorsi.filter((c) => c.id !== id));
+  };
 
   //funzione passata come riferimento per modificare determinato corso
   const handleUpdateCourse = (corsoAggiornato) => {
-      setListaCorsi(
-        listaCorsi.map((c) => (c.id === corsoAggiornato.id ? corsoAggiornato : c))
-      );
-      setEditingCourse(null);
-      setShowForm(false);
-    };
+    setListaCorsi(
+      listaCorsi.map((c) => (c.id === corsoAggiornato.id ? corsoAggiornato : c))
+    );
+    setEditingCourse(null);
+    setShowForm(false);
+  };
 
   const handleAddCourse = (nuovoCorso) => {
     const nuovoCorsoCompleto = {
@@ -38,12 +41,9 @@ function Homepaged() {
       lezioni: [],
       ...nuovoCorso,
     };
-    setListaCorsi([...listaCorsi,nuovoCorsoCompleto])
+    setListaCorsi([...listaCorsi, nuovoCorsoCompleto]);
     setShowForm(false);
   };
-
-
-
 
   return (
     <>
@@ -58,18 +58,28 @@ function Homepaged() {
             text={par.descrizione}
             img={par.img}
             isAddCard={false}
-            onEdit={() => {setShowForm(!showForm); setEditingCourse(par)}}
-            onDelete={()=>{handleDeleteCourse(par.id);}}
+            onEdit={() => {
+              setShowForm(!showForm);
+              setEditingCourse(par);
+            }}
+            onDelete={() => {
+              handleDeleteCourse(par.id);
+            }}
             role={docente.role ?? "docente"}
           ></Cards>
         ))}
         <Cards
           key={0}
           title={"AGGIUNGI CORSO"}
-          img={"https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="}
+          img={
+            "https://media.istockphoto.com/id/1034906324/it/vettoriale/aggiungere.jpg?s=612x612&w=0&k=20&c=WaS15nwFYmTwEgsGXZ9FxpLx-ljA3qVCvAOnbiyB0IQ="
+          }
           text={"Aggiungere Corso"}
           isAddCard={true}
-          onClick={() => {setShowForm(!showForm);setEditingCourse(null);}}
+          onClick={() => {
+            setShowForm(!showForm);
+            setEditingCourse(null);
+          }}
           role={docente.role ?? "docente"}
         >
           {/*sto passando al props il setter con setShowForm vero o falso*/}

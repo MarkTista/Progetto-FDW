@@ -1,9 +1,9 @@
 // components/ListaCorsiDisponibili.jsx
-import Table from 'react-bootstrap/Table';
-import { users } from '../User';
+import Table from "react-bootstrap/Table";
+import { users } from "../User";
 
 function ListaCorsiDisponibili({ corsi, onIscriviti }) {
-  return (
+  return corsi.length > 0 ? (
     <Table striped bordered hover>
       <thead>
         <tr>
@@ -14,18 +14,27 @@ function ListaCorsiDisponibili({ corsi, onIscriviti }) {
       </thead>
       <tbody>
         {corsi.map((corso) => {
-          const docente = users.find(user => user.id === corso.id_docente && user.role === 'docente');
-            {/*Qua cerca tutte le corrispondenze tra il docente */}
+          const docente = users.find(
+            (user) => user.id === corso.id_docente && user.role === "docente"
+          );
+          {
+            /*Qua cerca tutte le corrispondenze tra il docente */
+          }
           return (
-             <tr key={corso.id}>
+            <tr key={corso.id}>
               <td>{docente.nome}</td>
               <td>{corso.titolo}</td>
               <td>
                 <button
                   className="btn btn-success"
                   onClick={() =>
-                    onIscriviti({...corso, descrizione: corso.descrizione + '\nProf: ' + docente.nome,})
-                  }>
+                    onIscriviti({
+                      ...corso,
+                      descrizione:
+                        corso.descrizione + "\nProf: " + docente.nome,
+                    })
+                  }
+                >
                   Iscriviti
                 </button>
               </td>
@@ -34,7 +43,7 @@ function ListaCorsiDisponibili({ corsi, onIscriviti }) {
         })}
       </tbody>
     </Table>
-  );
+  ) : null;
 }
 
 export default ListaCorsiDisponibili;

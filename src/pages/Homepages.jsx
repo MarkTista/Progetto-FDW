@@ -1,16 +1,15 @@
-import React, { useState } from "react"; // Importa React e useState insieme
+import React, { useEffect, useState } from "react"; // Importa React e useState insieme
 import Navbar from "../components/Navbar";
-import { users, corsi } from "../User";
 import Container from "react-bootstrap/Container";
 import Cards from "../components/Cards";
 import ListaCorsiDisponibili from "../components/ListaCorsiDisponibili";
 import "./Homepages.css";
+import { getUser } from "../utils/getUser";
 
 function Homepages() {
-  const studenteLoggatoId = 3;
-  const studente = users.find(
-    (u) => u.id === studenteLoggatoId && u.role === "studente"
-  );
+  const studente = getUser();
+
+  const [corsi, setCorsi] = useState([]);
 
   const [corsiIscritti, setCorsiIscritti] = useState([]);
 
@@ -18,13 +17,29 @@ function Homepages() {
     if (!corsiIscritti.find((c) => c.id === corso.id)) {
       setCorsiIscritti([...corsiIscritti, corso]);
     }
-    {
-      /*Corso è un oggetto che viene passato da ListaCorsiDisponibile, dove viene controllato se il corso non sta gia presente in corsiIscritti allora lo aggiunge  */
-    }
-    {
-      /* Nel caso in cui non ci fosse stato aggiungerebbe lo stesso corso più volte del necessario */
-    }
   };
+
+  useEffect(() => {
+    fetch(import.meta.env.VITE_API_URL + "corsi", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCorsi(data.corsi || []);
+      })
+      .catch((error) => {
+        alert("Errore durante il caricamento dei corsi", error);
+      });
+  }, []);
 
   return (
     <>

@@ -11,8 +11,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import StudentLesson from "./pages/StudentLesson.jsx";
 
-export const API_URL = import.meta.env.VITE_API_URL;
-
 {
   /*CSS di Bootstrap vale su tutte le app però mettendo prima di index.css lo posso sovrascrivere*/
 }
