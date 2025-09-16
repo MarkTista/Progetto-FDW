@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { corsi } from "../User";
 import AddLesson from '../components/AddLesson';
 import './CurseLesson.css'
 import NavBar from "../components/Navbar"
@@ -10,34 +9,80 @@ import Button from 'react-bootstrap/Button';
 function CourseLesson()
 {
     const { corsoId } = useParams(); // prendi l'id dal path
-    const corso = corsi.find(c => c.id == corsoId); // salvare il corso in corso
     const [lezioni, setLezioni] = useState([]);// Stato locale delle lezioni
     const [editingLesson,setEditingLesson] = useState();
-
-    //ad aogni aggiornamento 
-    useEffect(() => {
-    if (corso.lezioni) {
-      setLezioni(corso.lezioni);}
-    },[corso.lezioni]);
-
-    //-------PARTE RELATIVA AL FORM
+     const[corso,setCorso] = useState([]); //per avere info del corso
     const [showForm,setShowForm] = useState(false); // serve per visualizzare o meno il pulsante
+
+    const docenteid = JSON.parse(sessionStorage.getItem("user"))
+
+    //Fa vedere a schermo tutte le lezioni del prof che ha caricato
+    useEffect(()=>{
+        fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId,
+        {
+            method:"GET",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+        })
+        .then((res)=>res.json())
+        .then((data)=>setLezioni(data));
+    },[]);
+    //serve per prendere le informazioni dal corso
+    useEffect(()=>{
+        fetch(import.meta.env.VITE_API_URL+"/corsi/"+corsoId,{
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:`Bearer ${sessionStorage.getItem("token")}`,
+            },
+        }).then((res)=> res.json())
+        .then((corso)=>setCorso(corso));
+    },[])
 
     const handleAddLesson = (nuovaLezione) => 
     {
-        setLezioni([...lezioni, { id: Date.now(), ...nuovaLezione }]);
-        setShowForm(false);
+        fetch(import.meta.env.VITE_API_URL+"/lezioni"+"/add/"+corsoId,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json",
+                Authorization:`Bearer ${sessionStorage.getItem("token")}`, 
+            },
+            body:JSON.stringify(nuovaLezione)
+        }).then((res)=>res.json())
+        .then((nuovalezione)=>{setLezioni([...lezioni,nuovalezione])})
     };
+
+
    const handleUpdateLesson = (lezioneAggiornata) => {
-        setLezioni(lezioni.map((l) => (l.id === lezioneAggiornata.id ? lezioneAggiornata : l))
+    fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId+"/"+lezioneAggiornata._id,{
+        method:"PUT",
+        headers:{
+            "Content-Type" : "application/json",
+            Authorization: `Bearer ${sessionStorage.getItem("token")}`
+        },body: JSON.stringify(lezioneAggiornata)
+    }).then((res)=>res.json())
+    .then(lezioneDalServer => {
+      setLezioni(prevLezioni => prevLezioni.map(l => l._id === lezioneDalServer._id ? lezioneDalServer : l )
         );
-        setEditingLesson(null);
-        setShowForm(false);
-};
+        }) 
+    };
 
+    const handleDeleteLesson = (lezioneEliminata)=>{
 
-
-    //allora viene messo lo spreadoperator ...nuovaLezione perchè voglio il contenuto, senza mi andrebbe ad aggiungere l'oggetto nuovalezione
+        fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId+"/"+lezioneEliminata._id,{
+            method:"DELETE",
+            headers:{
+                "Content-Type": "application/json",
+                Authorization:`Bearer ${sessionStorage.getItem("token")}`
+            }
+        }).then((res)=>res.json())
+        .then(() => { setLezioni(prevLezioni => prevLezioni.filter(l => l._id !== lezioneEliminata._id) );  })
+        .catch(err => {
+        console.error(err);
+        });
+    }
+      
     return(
         <>
         <NavBar/>
@@ -54,26 +99,27 @@ function CourseLesson()
                     <tbody>
                     {lezioni.length > 0 ?
                      (
-                        lezioni.map(l =>(
-                        <tr key={l.id}>
-                        <td> {l.id}</td>
+                        lezioni.map((l,index) =>(
+                        <tr key={l._id}>
+                        <td>{index + 1}</td>
                         <td> {l.titolo}</td>
                         <td> {l.video}</td>
                         <td>
                             <Button variant="warning" className="me-2" onClick={()=>{setShowForm(!showForm);setEditingLesson(l)}}>Modifica</Button>
+                            <Button variant="danger" className="me-2" onClick={()=>{handleDeleteLesson(l)}}>Elimina</Button>
                         </td>
                         </tr>
                         )) 
-                     ) : <p> NESSUNA LEZIONE TROVATA</p>
+                     ) : <tr>
+                        <td colSpan="3">NESSUNA LEZIONE TROVATA</td>
+                        </tr>
                     }
                     </tbody>
                 </table>
                     <div className="button-container">
                     <button onClick={() => setShowForm(!showForm)}>AGGIUNGI LEZIONE</button>
                     </div>
-
                 {showForm && <AddLesson onSave={handleAddLesson} lezione={editingLesson} onUpdate={handleUpdateLesson} />}
-
         </div>
         </>
     );

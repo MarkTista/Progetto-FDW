@@ -29,7 +29,7 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/Homepaged",
+    path: "/Homepaged/:docenteId",
     element: <Homepaged></Homepaged>,
   },
   {
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     element: <Homepages />,
   },
   {
-    path: "/studente/lezione/:corsoId",
+    path: "/studente/:studenteId/corso/:corsoId",
     element: <StudentLesson />,
   },
 ]);

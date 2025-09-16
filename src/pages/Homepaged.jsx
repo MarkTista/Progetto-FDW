@@ -11,7 +11,7 @@ function Homepaged() {
   const [editingCourse, setEditingCourse] = useState(null); // serve per modificare corso
 
 
-//Questo mi serve per mostrare a schermo tutti i corsi che nel caso sono presente dal docente
+//Questo mi serve per mostrare a schermo tutti i corsi che il docente aveva inserito in predenza
 useEffect(() => {
   fetch(import.meta.env.VITE_API_URL + "/corsi", {
     method: "GET",
@@ -26,12 +26,12 @@ useEffect(() => {
     })
     .then((data) => setListaCorsi(data))
     .catch((err) => console.error(err));
-}, [listaCorsi]);
+},[]);
 
 //POST aggiungi corso nuovo 
 function handleAddCourse(nuovoCorso) {
   const user = JSON.parse(sessionStorage.getItem("user"));
-  fetch("http://localhost:8000/api/corsi/add", {
+  fetch(import.meta.env.VITE_API_URL +"/corsi/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -41,7 +41,8 @@ function handleAddCourse(nuovoCorso) {
       ...nuovoCorso,
       docente: user._id   
     }),
-  })
+  }).then((res)=>res.json())
+    .then((nuovoCorso)=>setListaCorsi([...listaCorsi,nuovoCorso]));
 }
 
 // PUT -> aggiorna un corso esistente
@@ -59,16 +60,26 @@ function handleChangeCourse(nuovoCorso) {
       return res.json();
     })
     .then((corsoAggiornato) => {
-      setListaCorsi((prev) =>
-        prev.map((c) => (c._id === corsoAggiornato._id ? corsoAggiornato : c))
+      setListaCorsi((prev) => prev.map((c) => (c._id === corsoAggiornato._id ? corsoAggiornato : c))
       );
       setShowForm(false);
     })
     .catch((err) => console.error(err));
 }
 
-
-
+function handleDeleteCourse(eliminoCorso)
+{
+  fetch(import.meta.env.VITE_API_URL+ "/corsi/"+ eliminoCorso._id,{
+    method:"DELETE",
+    headers :{
+      "Content-type" :"application/json",
+       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+    }
+  }).then(response => response.json())
+  .then((corsoEliminato)=>{
+    setListaCorsi((prev)=>prev.filter((c)=>c._id !== corsoEliminato._id))
+  })
+}
   return (
     <>
     <Navbar></Navbar>
@@ -83,17 +94,13 @@ function handleChangeCourse(nuovoCorso) {
         text={par.descrizione}
         img={par.img}
         isAddCard={false}
-        onEdit={() => {
-          setShowForm(true);
-          setEditingCourse(par);
+        onEdit={() => {  setShowForm(true); setEditingCourse(par);
         }}
-        onDelete={() => {handleDeleteCourse(par._id);
+        onDelete={() => {handleDeleteCourse(par);
         }} role={"docente"}
       />
     ))
-  ) : (
-    <p>Nessun corso disponibile</p>
-  )}
+  ) : ("")}
 
   {/* Card per aggiungere un nuovo corso */}
   <Cards
@@ -114,7 +121,7 @@ function handleChangeCourse(nuovoCorso) {
     <CardEditor
       initialValues={editingCourse}
       onUpdate={handleChangeCourse}
-      onSave={handleChangeCourse}
+      onSave={handleAddCourse}
       onClose={() => setShowForm(false)}
     />
   )}

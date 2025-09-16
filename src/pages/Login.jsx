@@ -2,7 +2,6 @@ import { useState } from "react";
 import NavBar from "../components/Navbar";
 import "./Login.css";
 import Button from "react-bootstrap/Button";
-import { users } from "../User";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -42,10 +41,9 @@ function Login() {
 //2)data.token-> è il token generatore da JWT
 //Questo serve quando devi chiamare API protette
 //  headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}`,},
-
         // Navigate based on user role
         if (data.user.role === "docente") {
-          navigate("/Homepaged");
+          navigate(`/Homepaged/${data.user._id}`);
         } else if (data.user.role === "studente") {
           navigate("/Homepages");
         }
@@ -68,14 +66,7 @@ function Login() {
       <NavBar></NavBar>
       <div className="container-login-singup">
         <div className="form-box">
-          <form
-            method="post"
-            action={"#"}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(e);
-            }}
-          >
+          <form method="post"  action={"#"} onSubmit={(e) => { e.preventDefault();  handleSubmit(e); }} >
             <h1>Login</h1>
             <div className="input-box">
               <input
