@@ -22,7 +22,6 @@ function CourseLesson()
         {
             method:"GET",
             headers:{
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${sessionStorage.getItem("token")}`,
             },
         })
@@ -33,7 +32,6 @@ function CourseLesson()
     useEffect(()=>{
         fetch(import.meta.env.VITE_API_URL+"/corsi/"+corsoId,{
             headers:{
-                "Content-Type":"application/json",
                 Authorization:`Bearer ${sessionStorage.getItem("token")}`,
             },
         }).then((res)=> res.json())

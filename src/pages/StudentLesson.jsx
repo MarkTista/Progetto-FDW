@@ -14,7 +14,6 @@ function StudentLesson() {
     fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId+"/"+studenteId,{
       method:"GET",
       headers:{
-        "Content-type":"application/json",
         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
       }
     }).then((res)=>res.json())
@@ -30,7 +29,7 @@ function StudentLesson() {
     <div className="student-lesson">
       <h2>{currentLesson ? "In questa lezione si parla di :"+currentLesson.titolo : "Il docente le deve ancora caricare..."}</h2>
       {currentLesson &&(<VideoPlayer videoUrl={currentLesson.video} titolo={currentLesson.titolo} />  )}
-      <LessonList lezioni={lezioni}currentLesson={currentLesson} onSelect={setCurrentLesson} />
+      {lezioni.length > 0 && (<LessonList  lezioni={lezioni}  currentLesson={currentLesson}  onSelect={setCurrentLesson} />)}
     </div>
 
     

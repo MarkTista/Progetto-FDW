@@ -24,10 +24,14 @@ function Cards({ title, text, img, id, role, isAddCard, onClick,onEdit,onDelete 
             </div>
           </>
         )}
-          {isStudente && (<>
-            <Link to={`/studente/${userid}/corso/${id}`}>
-            <Button variant="info">Visualizza Lezioni</Button> </Link>
-            <Button variant="danger" onClick={onDelete}>Disiscriviti</Button> </>)}
+          {isStudente && (
+            <div className="d-flex gap-1">
+              <Link to={`/studente/${userid}/corso/${id}`}>
+                <Button variant="info" className="mb-2">Visualizza Lezioni</Button>
+              </Link>
+              <Button variant="danger" className="mb-2" onClick={onDelete}>Disiscriviti</Button>
+            </div>
+          )}
       </Card.Body>
     </Card>
   );

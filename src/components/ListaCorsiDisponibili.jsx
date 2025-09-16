@@ -1,10 +1,12 @@
 import { Table } from "react-bootstrap";
+import {Button} from"react-bootstrap";
+import './ListaCorsiDisponibili.css'
 
-function ListaCorsiDisponibili({ corsi,onIscriviti }) {
-  if (corsi.length === 0) return null;
+function ListaCorsiDisponibili({ corsi ,onIscriviti }) {
 
-  return (
-    <Table striped bordered hover size="sm">
+return (
+  corsi.length > 0 ? (
+    <Table className="tabella-corsi" striped bordered hover size="sm">
       <thead>
         <tr>
           <th>Docente</th>
@@ -15,14 +17,19 @@ function ListaCorsiDisponibili({ corsi,onIscriviti }) {
       <tbody>
         {corsi.map((corso) => (
           <tr key={corso._id}>
-            <td> {`${corso.docente.nome} ${corso.docente.cognome}`} </td>
+            <td>{`${corso.docente.nome} ${corso.docente.cognome}`}</td>
             <td>{corso.titolo}</td>
-            <td><button onClick={() => onIscriviti(corso)}>Iscriviti</button></td>
+            <td className="text-center">
+              <Button variant="success"  size="sm" onClick={() => onIscriviti(corso)} >Iscriviti</Button>
+            </td>
           </tr>
         ))}
       </tbody>
     </Table>
-  );
+  ) : (
+    <p className="fs-5">I DOCENTI DEVONO ANCORA CARICARE I CORSI...ATTENDI</p>
+  )
+);
 }
 
 export default ListaCorsiDisponibili;

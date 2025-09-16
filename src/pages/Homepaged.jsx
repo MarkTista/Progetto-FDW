@@ -16,7 +16,6 @@ useEffect(() => {
   fetch(import.meta.env.VITE_API_URL + "/corsi", {
     method: "GET",
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
   })

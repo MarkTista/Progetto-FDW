@@ -16,6 +16,7 @@ function handleDeleteCourse(corso) {
   const corsoId = corso._id;
   const studenteId = studente._id;
 
+  
   fetch(import.meta.env.VITE_API_URL+"/corsi/deletecourse/"+studenteId+"/"+corsoId, {
     method: "DELETE",
     headers: {
@@ -31,11 +32,6 @@ function handleDeleteCourse(corso) {
     })
     .catch((err) => console.error("Errore disiscrizione:", err));
 }
-
-
-
-
-
  //serve per iscriversi ai corsi
  const handleIscriviti = (corso) => 
   {
@@ -90,7 +86,7 @@ useEffect(() => {
       <Navbar />
       <div className="container-student">
         <Container>
-          <h1 className="h1-student">Tutti i corsi disponibili</h1>
+          <h1 className="h1-student">TUTTI I CORSI DISPONIBILI</h1>
           <ListaCorsiDisponibili corsi={corsiDisponibili} onIscriviti={handleIscriviti} />
           {corsiIscritti.length > 0 && (
             <>
@@ -105,7 +101,7 @@ useEffect(() => {
                     img={corso.img}
                     isAddCard={false}
                     role="studente"
-                    onDelete={()=>{handleDeleteCourse(corso)}}
+                    onDelete={()=>handleDeleteCourse(corso)}
                   />
                 ))}
               </div>
