@@ -1,3 +1,8 @@
 .tabella-corsi tr th{
     text-align: center;
 }
+
+.messaggio-centrato {
+  text-align: center;   /* centra il testo del messaggio */
+  margin-top: 20px;
+}

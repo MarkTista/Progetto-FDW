@@ -27,7 +27,7 @@ return (
       </tbody>
     </Table>
   ) : (
-    <p className="fs-5">I DOCENTI DEVONO ANCORA CARICARE I CORSI...ATTENDI</p>
+   <div className="messaggio-centrato"> <p className="fs-5">I DOCENTI DEVONO ANCORA CARICARE I CORSI...ATTENDI</p> </div>
   )
 );
 }
