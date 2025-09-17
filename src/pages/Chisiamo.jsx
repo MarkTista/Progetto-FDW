@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import membro from "../assets/utente.png"
-import "./ChiSiamo.css";
+import "./Chisiamo.css";
 
 function Chisiamo() {
   return (
