@@ -28,7 +28,7 @@
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 15px; /* distanza tra Benvenuto e Logout */
+  gap: 15px; 
 }
 
 .nav-right span{

@@ -19,8 +19,8 @@ function CardEditor({ onSave, onClose,onUpdate,initialValues }) {
       })
     }
   }, [initialValues]);
-
   //creo uno stato per gestire i nuovi corsi 
+  
   function handleChange(e){
     const { name, value } = e.target;
     setNuovoCorso({ ...nuovoCorso, [name]: value });
