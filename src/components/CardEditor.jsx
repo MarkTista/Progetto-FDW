@@ -36,7 +36,6 @@ function CardEditor({ onSave, onClose,onUpdate,initialValues }) {
   };
  
   return (
-    
     <div className="inline-form">
         <form method="post" onSubmit={handleSave}>
             <input name="titolo" placeholder="Nome Corso"value={nuovoCorso.titolo} onChange={handleChange} required
@@ -45,7 +44,7 @@ function CardEditor({ onSave, onClose,onUpdate,initialValues }) {
             />
             <input name="img" placeholder="URL immagine"value={nuovoCorso.img}onChange={handleChange} 
             />
-            <button type="submit">Modifica Corso</button>
+            <button type="submit">{initialValues && ("Modifica Corso")}Aggiungi Corso</button>
             <button onClick={onClose}>Annulla</button>
         </form>
     </div>
