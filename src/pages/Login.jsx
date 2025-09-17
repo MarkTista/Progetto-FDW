@@ -13,6 +13,7 @@ function Login() {
   });
 
   function handleSubmit(e) {
+    e.preventDefault(e);
     fetch(import.meta.env.VITE_API_URL + "/auth/login", {
       method: "POST",
       headers: {
@@ -30,22 +31,10 @@ function Login() {
         // salvo nel session storage l'utente e il token
         sessionStorage.setItem("user", JSON.stringify(data.user));
         sessionStorage.setItem("token", data.token);
-//1)
-//data.user ->oggetto utente che ritorna dal backend
-//JSON.stringify(data.user) -> lo converte in stringa perché sessionStorage può salvare solo stringhe
-//nel browser avremo key: "user"
-//                         value: "{"id":1,"email":"mario@esempio.com","name":"Mario"}"
-
-//PER RIUSARLO FAI const user = JSON.parse(sessionStorage.getItem("user"));
-
-//2)data.token-> è il token generatore da JWT
-//Questo serve quando devi chiamare API protette
-//  headers: { Authorization: `Bearer ${sessionStorage.getItem("token")}`,},
-        // Navigate based on user role
         if (data.user.role === "docente") {
-          navigate(`/Homepaged/${data.user._id}`);
+          navigate(`/Homepaged/docente/${data.user._id}`);
         } else if (data.user.role === "studente") {
-          navigate("/Homepages");
+          navigate(`/Homepages/studente/${data.user._id}}`);
         }
       })
       .catch((error) => {
@@ -53,20 +42,14 @@ function Login() {
       });
   }
   function handleInputChange(e) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    /*Serve ad aggiornare uno specifico campo dello stato formData,senza perdere altri campi
-        ...=>spread operator copia tutti i campi dell'oggetto in un nuovo oggetto
-        e.target =>è l'elemento che ha generatore l'evento
-        [e.target.name] => CHIAVE DINAMICA, crea o aggiorna la proprietà con il nome contenuto in e.target.name
-         */
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value }); }
 
   return (
     <>
       <NavBar></NavBar>
       <div className="container-login-singup">
         <div className="form-box">
-          <form method="post"  action={"#"} onSubmit={(e) => { e.preventDefault();  handleSubmit(e); }} >
+          <form method="post"onSubmit={handleSubmit} >
             <h1>Login</h1>
             <div className="input-box">
               <input
@@ -88,9 +71,7 @@ function Login() {
                 required
               />
             </div>
-            <Button variant="outline-primary" type="submit">
-              Accedi
-            </Button>
+            <Button variant="outline-primary" type="submit">Accedi</Button>
           </form>
         </div>
       </div>

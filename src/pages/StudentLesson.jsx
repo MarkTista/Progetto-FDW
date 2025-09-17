@@ -19,20 +19,14 @@ function StudentLesson() {
     }).then((res)=>res.json())
     .then((lezioni)=>{setLezioni(lezioni); setCurrentLesson(lezioni[0])})
   }, []);
-
-
-
   return (
     <>
-    
     <Navbar/>
     <div className="student-lesson">
       <h2>{currentLesson ? "In questa lezione si parla di :"+currentLesson.titolo : "Il docente le deve ancora caricare..."}</h2>
       {currentLesson &&(<VideoPlayer videoUrl={currentLesson.video} titolo={currentLesson.titolo} />  )}
       {lezioni.length > 0 && (<LessonList  lezioni={lezioni}  currentLesson={currentLesson}  onSelect={setCurrentLesson} />)}
     </div>
-
-    
     </>
   );
 } export default StudentLesson;

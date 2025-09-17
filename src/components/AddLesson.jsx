@@ -16,17 +16,13 @@ function AddLesson({onSave,lezione,onUpdate})
 
   function handleSave(e){
     e.preventDefault();
-    
     if(lezione)
     {
       onUpdate(nuovaLezione)
     }else{
       onSave(nuovaLezione);
     }
-    
   };
-  
-
   function handleChange(e)
   {
     const{name,value} = e.target;

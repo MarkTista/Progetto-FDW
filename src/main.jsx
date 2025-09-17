@@ -7,6 +7,7 @@ import Singup from "./pages/Singup.jsx";
 import Homepaged from "./pages/Homepaged.jsx";
 import CourseLesson from "./pages/CourseLesson.jsx";
 import Homepages from "./pages/Homepages.jsx";
+import Chisiamo from "./pages/Chisiamo.jsx"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 import StudentLesson from "./pages/StudentLesson.jsx";
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
     element: <Homepage></Homepage>,
   },
   {
+    path:"/chisiamo",
+    element: <Chisiamo></Chisiamo>
+  },
+  {
     path: "/Singup",
     element: <Singup></Singup>,
   },
@@ -29,15 +34,15 @@ const router = createBrowserRouter([
     element: <Login></Login>,
   },
   {
-    path: "/Homepaged/:docenteId",
-    element: <Homepaged></Homepaged>,
+    path: "/Homepaged/docente/:docenteId",
+    element: <Homepaged/>,
   },
   {
     path: "/Homepaged/corso/:corsoId/lezione",
     element: <CourseLesson />,
   },
   {
-    path: "/Homepages",
+    path: "/Homepages/studente/:studenteId",
     element: <Homepages />,
   },
   {

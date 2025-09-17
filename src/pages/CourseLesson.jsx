@@ -15,7 +15,6 @@ function CourseLesson()
     const [showForm,setShowForm] = useState(false); // serve per visualizzare o meno il pulsante
 
     const docenteid = JSON.parse(sessionStorage.getItem("user"))
-
     //Fa vedere a schermo tutte le lezioni del prof che ha caricato
     useEffect(()=>{
         fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId,
@@ -61,13 +60,10 @@ function CourseLesson()
         },body: JSON.stringify(lezioneAggiornata)
     }).then((res)=>res.json())
     .then(lezioneDalServer => {
-      setLezioni(prevLezioni => prevLezioni.map(l => l._id === lezioneDalServer._id ? lezioneDalServer : l )
-        );
-        }) 
+      setLezioni(prevLezioni => prevLezioni.map(l => l._id === lezioneDalServer._id ? lezioneDalServer : l ) ); }) 
     };
 
     const handleDeleteLesson = (lezioneEliminata)=>{
-
         fetch(import.meta.env.VITE_API_URL+"/lezioni/"+corsoId+"/"+lezioneEliminata._id,{
             method:"DELETE",
             headers:{

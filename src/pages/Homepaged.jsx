@@ -36,10 +36,7 @@ function handleAddCourse(nuovoCorso) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
-   body: JSON.stringify({
-      ...nuovoCorso,
-      docente: user._id   
-    }),
+   body: JSON.stringify({...nuovoCorso, docente: user._id}),
   }).then((res)=>res.json())
     .then((nuovoCorso)=>setListaCorsi([...listaCorsi,nuovoCorso]));
 }
@@ -58,8 +55,7 @@ function handleChangeCourse(nuovoCorso) {
       if (!res.ok) throw new Error("Errore nell'aggiornamento corso");
       return res.json();
     })
-    .then((corsoAggiornato) => {
-      setListaCorsi((prev) => prev.map((c) => (c._id === corsoAggiornato._id ? corsoAggiornato : c))
+    .then((corsoAggiornato) =>{setListaCorsi((vecchio_corso) => vecchio_corso.map((c) => (c._id === corsoAggiornato._id ? corsoAggiornato : c))
       );
       setShowForm(false);
     })
@@ -75,9 +71,9 @@ function handleDeleteCourse(eliminoCorso)
        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     }
   }).then(response => response.json())
-  .then((corsoEliminato)=>{
-    setListaCorsi((prev)=>prev.filter((c)=>c._id !== corsoEliminato._id))
+  .then((corsoEliminato)=>{setListaCorsi((prev)=>prev.filter((c)=>c._id !== corsoEliminato._id)) 
   })
+
 }
   return (
     <>
@@ -93,10 +89,9 @@ function handleDeleteCourse(eliminoCorso)
         text={par.descrizione}
         img={par.img}
         isAddCard={false}
-        onEdit={() => {  setShowForm(true); setEditingCourse(par);
-        }}
-        onDelete={() => {handleDeleteCourse(par);
-        }} role={"docente"}
+        onEdit={() => {  setShowForm(true); setEditingCourse(par); }}
+        onDelete={() => {handleDeleteCourse(par);}} 
+        role={"docente"}
       />
     ))
   ) : ("")}

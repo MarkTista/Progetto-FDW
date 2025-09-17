@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import "./Login.css";
 import Button from "react-bootstrap/Button";
-import { Navigate, useNavigate } from "react-router-dom";
 
 function Singup() {
-  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nome: "",
     cognome: "",
@@ -13,10 +11,8 @@ function Singup() {
     password: "",
     role: "studente", // Valore di default
   });
-
   function handleSubmit(e) {
-    //console.log("Form Data Submitted:", formData); // Debug: verifica i dati del form
-    console.log(import.meta.env.VITE_API_URL);
+    e.preventDefault();
     fetch(import.meta.env.VITE_API_URL + "/auth/register", {
       method: "POST",
       headers: {
@@ -31,34 +27,21 @@ function Singup() {
         return response.json();
       })
       .then((data) => {
-        alert("Registrazione avvenuta con successo!");
+        alert("Registrazione avvenuta con successoo!");
       })
       .catch((error) => {
         alert("Errore durante la registrazione, riprova più tardi");
       });
-      
   }
   function handleInputChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    /*Serve ad aggiornare uno specifico campo dello stato formData,senza perdere altri campi
-        ...=>spread operator copia tutti i campi dell'oggetto in un nuovo oggetto
-        e.target =>è l'elemento che ha generatore l'evento
-        [e.target.name] => CHIAVE DINAMICA, crea o aggiorna la proprietà con il nome contenuto in e.target.name
-         */
   }
   return (
     <>
       <Navbar></Navbar>
       <div className="container-login-singup">
         <div className="form-box">
-          <form
-            method="post"
-            action={"#"}
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(e);
-            }}
-          >
+          <form method="post" onSubmit={handleSubmit}>
             <h1>Registrazione</h1>
             <div className="input-box">
               <input
@@ -69,8 +52,6 @@ function Singup() {
                 onChange={handleInputChange}
                 required
               />
-              {/* imposto value=..., cosi dico a React che il valore di questo input è controllato dallo stato */}
-              {/* imposto onChange=...,bisogna vedere tutte le modifiche che l'utente effettu, l'approccio Single Source Of Truth e perchè non mettendo sarebbe solo lettura essendo value */}
             </div>
             <div className="input-box">
               <input

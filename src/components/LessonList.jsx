@@ -9,7 +9,9 @@ function LessonList({ lezioni, currentLesson, onSelect })
       <ul>
         {lezioni.map((lezione) => (
           <li
-            key={lezione._id} className={currentLesson?._id === lezione._id ? "active" : ""} onClick={() => onSelect(lezione)}  >
+            key={lezione._id} 
+            className={currentLesson?._id === lezione._id ? "active" : ""} 
+            onClick={() => onSelect(lezione)} >
             {lezione.titolo}
           </li>
         ))}

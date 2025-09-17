@@ -24,13 +24,11 @@ function handleDeleteCourse(corso) {
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
   })
-    .then((res) => {
-      if (!res.ok) throw new Error("Errore nella disiscrizione");
-      return res.json();
-    })
-    .then(() => {setCorsiIscritti((prev) => prev.filter((c) => c._id !== corsoId));
-    })
-    .catch((err) => console.error("Errore disiscrizione:", err));
+   .then((res) => {
+    if (!res.ok) throw new Error("Errore nella disiscrizione");
+    setCorsiIscritti((corsi_agg) =>corsi_agg.filter((c) => c._id !== corsoId)
+    );
+  }) 
 }
  //serve per iscriversi ai corsi
  const handleIscriviti = (corso) => 
@@ -46,11 +44,10 @@ function handleDeleteCourse(corso) {
       "Content-Type": "application/json",
       Authorization: `Bearer ${sessionStorage.getItem("token")}`,
     },
-    body: JSON.stringify({ corsoId: corso._id }), // meglio inviare solo l'id
+    body: JSON.stringify({ corsoId: corso._id }), 
   })
     .then((res) => res.json())
-    .then((corsoSalvato) => {
-      setCorsiIscritti((corso) => [...corso, corsoSalvato]);
+    .then((corsoSalvato) => {setCorsiIscritti((corso) => [...corso, corsoSalvato]);
     })
     .catch((err) => console.error("Errore iscrizione:", err));
 };
@@ -69,7 +66,6 @@ function handleDeleteCourse(corso) {
 //QUESTO MI PERMETTE DI VISUALIZZARE COME CARD  TUTTI I CORSI A CUI è ISCRITTO LO STUDENTE
 useEffect(() => {
   const studente = JSON.parse(sessionStorage.getItem("user"));
-  if (!studente) return;
   fetch(import.meta.env.VITE_API_URL+"/corsi/allcorsi/"+studente._id, {
     method: "GET",
     headers: {

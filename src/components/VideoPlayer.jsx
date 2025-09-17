@@ -15,7 +15,7 @@ function VideoPlayer({ videoUrl, titolo }) {
       <iframe
         src={getEmbedUrl(videoUrl)}
         title={titolo}
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="autoplay; encrypted-media; gyroscope"
         allowFullScreen
       ></iframe>
     </div>
