@@ -44,7 +44,7 @@ function CardEditor({ onSave, onClose,onUpdate,initialValues }) {
             />
             <input name="img" placeholder="URL immagine"value={nuovoCorso.img}onChange={handleChange} 
             />
-            <button type="submit">{initialValues && ("Modifica Corso")}Aggiungi Corso</button>
+            <button type="submit"> {initialValues ? "Modifica Corso" : "Aggiungi Corso"}</button>
             <button onClick={onClose}>Annulla</button>
         </form>
     </div>
